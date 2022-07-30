@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  margin-top: 50px;
 }
 
 .App-logo {
@@ -35,4 +36,26 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.showOnEdit {display: none;}
+.edit-on .showOnEdit {
+  display: block;
+}
+
+.edit-on .hideOnEdit {
+  display: none;
+}
+
+table {
+  margin: 0 auto;
+}
+
+table th {
+  text-align: left;
+}
+
+table th,
+table td {
+  padding: 5px 10px;
 }
