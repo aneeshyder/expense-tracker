@@ -8,11 +8,11 @@ function NewCat(props) {
                     <input type="text" placeholder="Add new category" onChange={(event) => {
                     props.newCat(event.target.value)
                 }} />
-                    <button onClick={props.createNewCat}>Add New Category</button>
+                    <button className="updateBtn" onClick={props.createNewCat}>Add New Category</button>
                 </div>
             </div>
         </div>
     )
 }
 
-export  default NewCat;
+export default NewCat;

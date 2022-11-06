@@ -46,21 +46,49 @@ function Home() {
   // update a exp after update button is clicked for a exp.
   const updateExpense = async (id, event) => {
     const  expDoc = doc(db, 'expenses', id);
-    const newFields = {amount: uexp}
+
+    var ele = event.target.closest(".item");
+
+    const expName = ele.querySelector(".expNameInput").value;
+    const expDesc = ele.querySelector(".expDesc").value;
+    const expAmount = ele.querySelector(".expAmount").value;
+
+    const newFields = {amount: Number(expAmount), name: expName, description: expDesc }
     await updateDoc(expDoc, newFields);
-    handleEdit(event);
+
+    alert(`Updated: \n Expense Name: ${expName} \n Amount: ${Number(expAmount)} \n Description: ${expDesc}`);
+
+    var inputs = ele.querySelectorAll('.editInput ');
+    for (var i = 0, len = inputs.length; i < len; i++) {
+      let value = inputs[i].value;
+      let nextSibling = inputs[i].previousSibling;
+      nextSibling.innerHTML = value;
+    }
+
+    ele.classList.remove("edit-on");
   };
 
   // Func to handle edit state for exp.
   const handleEdit = (event) => {
     var ele = event.target.closest(".item");
-    ele.classList.toggle("edit-on");
+    if (ele.classList.contains('edit-on') ) {
+      ele.classList.remove("edit-on");
+    } else {
+      var fields = ele.querySelectorAll('.hideOnEdit');
+      for (var i = 0, len = fields.length; i < len; i++) {
+        let value = fields[i].innerHTML;
+        let nextSibling = fields[i].nextElementSibling;
+        nextSibling.value = value;
+      }
+      console.log(fields)
+      ele.classList.add("edit-on");
+    }
   }
 
-    // Func to handle edit state for exp.
-    const closeNewCat = () => {
-      setNewCatState(false)
-    }
+  // Func to handle edit state for exp.
+  const closeNewCat = () => {
+    setNewCatState(false)
+  }
 
   // Delete a exp.
   const deleteExp = async (id) => {
@@ -70,11 +98,11 @@ function Home() {
   };
 
   useEffect(() => {
-      const getAllData = async () => {
-          const data = await getDocs(expenseCollectionRef);            
-          setInitialData(data.docs.map((doc) => ({...doc.data(), id: doc.id  })));
-      }     
-      getAllData();
+    const getAllData = async () => {
+        const data = await getDocs(expenseCollectionRef);            
+        setInitialData(data.docs.map((doc) => ({...doc.data(), id: doc.id  })));
+    }     
+    getAllData();
   }, []);
   
 
@@ -111,49 +139,15 @@ function Home() {
 
   // Get total of expenses added so far.
   let totalExpenses;
-
+  if ( filterMonthName || filterName ) {
     totalExpenses = expenses.reduce((total, item) => {
       return Number(total += item.amount);
     }, 0);
-
-
-  // Query to get filtered data by name.
-  // Uses filterName state selected from select ele.
-//   const q = query(collection(db, "expenses"), where("name", "==", filterName ? filterName : '' ));
-
-//   useEffect(() => {
-//     const getAllData = async () => {
-//     const querySnapshot = await getDocs(q);
-//         setInitialData(querySnapshot.docs.map((doc) => ({...doc.data(), id: doc.id  })));
-//     }     
-//     getAllData();
-//     }, []);
-
-
-
-//   useEffect(() => {
-//     const getfilterData = async () => {
-//       const querySnapshot = await getDocs(q);
-//       let dataFinal = querySnapshot.docs.map((doc) => ({...doc.data(), id: doc.id  }));
-//       setFilterData(dataFinal);
-//       console.log(filterMonthName);
-
-//       if(filterName) {
-//         dataFinal =  dataFinal.filter(data => data.name == filterName);
-
-//         setFilterData(dataFinal);
-//       }
-//       if(filterMonthName) {
-//         dataFinal =  dataFinal.filter(data => data.month == filterMonthName);
-
-//         setFilterData(dataFinal);
-//       }
-//     }
-//   getfilterData();
-//   console.log('filter data');
-//   console.log(filterData);
-//   console.log(categories);
-//   }, []);
+  } else {
+    totalExpenses = initialData.reduce((total, item) => {
+      return Number(total += item.amount);
+    }, 0);
+  }
 
   return (
     <div className="App">
@@ -187,29 +181,40 @@ function Home() {
               
                 {expenses.map((exp) => {
                 return(
-                  <div className='item'>
-                    <div className='inner-col'>
-                      <p className='exp-name'>{exp.name}</p>
-                      <p className='date'>{exp.date} {exp.month} {exp.year}</p>
+                  <div className="item">
+                    <div className="inner-col">
+                      <div>
+                        <p className="exp-name hideOnEdit">{exp.name}</p>
+                        <input className="editInput showOnEdit expNameInput" type="text" />
+                      </div>
+                      <div>
+                        <p className='date'>{exp.date} {exp.month} {exp.year}</p>                        
+                      </div>
+                      
                     </div>
                     <div className='inner-col'>
-                      <p className='desc'>{exp.description}</p>
-                      <p className='amount'>₹{exp.amount}</p>
+                      <div>
+                        <p className='desc hideOnEdit'>{exp.description}</p>
+                        <input className="editInput showOnEdit expDesc" type="text" />
+                      </div>
+                      <div>
+                        <p className='amount hideOnEdit'>{exp.amount}</p>
+                        <input className="editInput showOnEdit expAmount" type="number" />                        
+                      </div>                      
                     </div>
                     <div className='buttons'>
                       <div>
-                        <div className="showOnEdit">
-                          <input type='number' onChange={(e) => {setUexp(e.target.value)}} />
-                          <button onClick={(event) => {
+                        <div className="showOnEdit">                        
+                          <button className='updateBtn' onClick={(event) => {
                             updateExpense(exp.id, event);
                           }}>Update Expense</button>
                         </div>
-                        <div className="hideOnEdit">
-                          <button onClick={(event) => {handleEdit(event);}}>Edit</button>      
+                        <div className="">
+                          <button className='editBtn' onClick={(event) => {handleEdit(event);}}>Edit</button>      
                         </div>
                       </div>
                       <div>
-                        <button onClick={() => {deleteExp(exp.id)}}>Delete Exp</button>
+                        <button className='deletetBtn' onClick={() => {deleteExp(exp.id)}}>Delete Exp</button>
                       </div>
                     </div>
                   </div>
@@ -221,33 +226,38 @@ function Home() {
     
                 { initialData.map((exp) => {
                 return(
-                  <div className='item'>
-                    <div className='inner-col'>
-                      <p className='exp-name'>{exp.name}</p>
-                      <p className='date'>{exp.date} {exp.month} {exp.year}</p>
+                  <div className="item">
+                    <div className="inner-col">
+                      <div>
+                        <p className="exp-name hideOnEdit">{exp.name}</p>
+                        <input className="editInput showOnEdit expNameInput" type="text" />
+                      </div>
+                      <div>
+                        <p className='date'>{exp.date} {exp.month} {exp.year}</p>                        
+                      </div>
+                      
                     </div>
                     <div className='inner-col'>
-                      <p className='desc'>{exp.description}</p>
-                      <p className='amount'>₹{exp.amount}</p>
+                      <div>
+                        <p className='desc hideOnEdit'>{exp.description}</p>
+                        <input className="editInput showOnEdit expDesc" type="text" />
+                      </div>
+                      <div>
+                        <p className='amount hideOnEdit'>{exp.amount}</p>
+                        <input className="editInput showOnEdit expAmount" type="number" />                        
+                      </div>                      
                     </div>
                     <div className='buttons'>
-                      <div>
-                        <div className="showOnEdit">
-                          <input type='number' onChange={(e) => {setUexp(e.target.value)}} />
-                          <button onClick={(event) => {
-                            updateExpense(exp.id, event);
-                          }}>Update Expense</button>
-                        </div>
-                        <div className="hideOnEdit">
-                          <button onClick={(event) => {handleEdit(event);}}>Edit</button>      
-                        </div>
-                      </div>
-                      <div>
-                        <button onClick={() => {deleteExp(exp.id)}}>Delete Exp</button>
+                      <button className='editBtn' onClick={(event) => {handleEdit(event);}}>Edit</button>
+                      <button className='deletetBtn' onClick={() => {deleteExp(exp.id)}}>Delete Exp</button>
+                      <div className="showOnEdit">                        
+                        <button className='updateBtn' onClick={(event) => {
+                          updateExpense(exp.id, event);
+                        }}>Update Expense</button>
                       </div>
                     </div>
-                </div>
-              )        
+                  </div>
+              )
               })}
               </div>               
             )

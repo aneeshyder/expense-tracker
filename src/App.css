@@ -29,12 +29,52 @@ select, input, button {
   border-radius: 4px;
 }
 
+input[type="date"]::-webkit-calendar-picker-indicator {
+  background-color: #fff;
+  border-radius: 3px;
+  padding: 2px 3px;
+}
+
 input::placeholder {
   color: #fff;
 }
 
 button {
   cursor: pointer;
+ 
+}
+
+button.editBtn {
+  background-image: url("../src/icons/edit.png");
+}
+
+.add-new-cat-wrapper .close-btn,
+button.updateBtn,
+button.deletetBtn,
+button.editBtn {
+  height: 25px;
+  width: 25px;
+  background-size: contain;
+  background-color: transparent;
+  background-repeat: no-repeat;
+  text-indent: -9999999px;
+  overflow: hidden;
+  border: 0;
+}
+
+button.deletetBtn {
+  background-image: url("../src/icons/delete.png");
+}
+
+button.updateBtn {
+  background-image: url("../src/icons/check.png");
+}
+
+.add-new-cat-wrapper .close-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-image: url("../src/icons/cancel.png"); 
 }
 
 .App-link {
@@ -98,16 +138,6 @@ table td {
 }
 
 .add-new-cat-wrapper .container h2 {margin-top: 0;}
-.add-new-cat-wrapper .close-btn {width: 30px;
-  height: 30px;
-  font-size: 14px;
-  padding: 5px;
-  border-radius: 50%;
-  border: 0;
-  background: #000;
-  position: absolute;
-  top: 5px;
-  right: 5px;}
 
   .header-menu ul {
     display: flex;
@@ -144,16 +174,74 @@ table td {
   position: relative;
   background: #211f1f;
   border-radius: 5px;
-  padding: 5px 10px;
-  margin: 15px 0;
+  padding: 15px 10px;
+  margin: 35px 0;
 }
 
 .outer-main .item .buttons {
+  opacity: 0;
+  visibility: hidden;
   display: flex;
   justify-content: center;
+  position: absolute;
+  top: -28px;
+  right: 7px;
+  background-color: #141313;
+  border-radius: 5px;
+  padding: 4px;
+  transition: all ease-in-out 0.3s;
+}
+
+.outer-main .item:hover .buttons {
+  opacity: 1;
+  visibility: visible;
+}
+
+.outer-main .item .buttons button {
+  height: 20px;
+  width: 20px;
+}
+
+.outer-main .item.edit-on .buttons {
+  visibility: visible;
+  opacity: 1;
+}
+
+.outer-main .item.edit-on .editBtn{
+  background-image: url("../src/icons/cancel.png");
 }
 
 .outer-main .inner-col p {
   text-transform: capitalize;
   margin: 5px 0;
+}
+
+.outer-main .item .editInput {
+  margin-right: 0;
+  margin-left: 0;
+}
+
+.outer-main .item .amount::before {
+  content: '₹';
+  margin-right: 3px;
+}
+
+.add-expense-form {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+@media screen and (max-width: 767px) {
+  .add-expense-form {
+   flex-direction: column;
+   align-items: center;
+  }
+  .add-expense-form > * {
+    margin-bottom: 10px;
+    width: 300px;
+  }
+  .add-expense-form button {
+    width: fit-content;
+  }
 }

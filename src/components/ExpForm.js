@@ -8,6 +8,7 @@ function ExpForm(props) {
             props.newCategoryState(true);
             document.getElementById('cat-options').selectedIndex = 0;            
         }
+        props.newExp(option);
     }
 
     const handleNewDate = (date) => {
@@ -20,7 +21,7 @@ function ExpForm(props) {
       }
 
     return (
-        <div>
+        <div className="add-expense-form">
             <select id="cat-options" onChange={(event) => {
                handleSelect(event.target.value)
             }} >
