@@ -90,6 +90,7 @@ table td {
   width: 600px;
   max-height: 95vh;
   height: 300px;
+  max-width: 95%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -130,6 +131,7 @@ table td {
 .outer-main {
   width: 600px;
   margin: 0 auto;
+  max-width: 95%;
 }
 
 .outer-main .inner-col {
