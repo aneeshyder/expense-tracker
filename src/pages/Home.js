@@ -208,7 +208,7 @@ function Home() {
         newyear={setNewYear}
       />
      
-       <h2 className="total-expenses-amount">Total: ₹{totalExpenses}</h2>
+       <h2 className="total-expenses-amount">{totalExpenses}</h2>
 
       {/* Select element to filter data with exp name. */}
       <Filters

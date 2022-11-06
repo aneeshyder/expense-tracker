@@ -256,6 +256,11 @@ table td {
   flex-wrap: wrap;
 }
 
+h2.total-expenses-amount::before {
+  content: "Total: ₹";
+  margin-right: 5px;
+}
+
 @media screen and (max-width: 767px) {
   .add-expense-form {
    flex-direction: column;
