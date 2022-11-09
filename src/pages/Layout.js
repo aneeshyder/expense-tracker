@@ -1,6 +1,11 @@
 import { Outlet, Link } from "react-router-dom";
+import { getAuth, signOut } from "firebase/auth";
+
+
 
 const Layout = () => {
+ 
+
   return (
     <>
       <nav className="header-menu">
@@ -10,7 +15,8 @@ const Layout = () => {
           </li> 
           <li>           
             <Link to="/add-category">Add Category</Link>
-          </li>         
+          </li>
+             
         </ul>
       </nav>
 
