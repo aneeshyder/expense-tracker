@@ -10,8 +10,8 @@ import Loader from '../components/loader';
 
 function ExpenseMain(props) {
   // Create references for firebase DB.
-  const expenseCollectionRef = collection(db, props.userId);
-  const categoriesCollectionRef = collection(db, 'category');
+  const expenseCollectionRef = collection(db, 'users', props.userId, 'expenses');
+  const categoriesCollectionRef = collection(db, 'users', props.userId, 'category');
 
   const [ initialData, setInitialData ] = useState([]);
   const [ totalAmount, setTotalAmount ] = useState(0);
@@ -51,6 +51,7 @@ function ExpenseMain(props) {
     await addDoc(categoriesCollectionRef, {cat_name: newCat});
     alert(`category - ${newCat} added`);
     setNewCatState(false);
+	updateMainState();
   }
 
 
@@ -131,7 +132,8 @@ function ExpenseMain(props) {
         setLoader(true);
         const dataRef = await getDocs(expenseCollectionRef);       
         let data = dataRef.docs.map((doc) => ({...doc.data(), id: doc.id  }))
-        data = data.filter(data => data.name !== 'name' );
+		console.log(data);
+        data = data.filter(data => data.first !== 'something' );
         
         setInitialData(data);
         setLoader(false);
@@ -164,7 +166,7 @@ function ExpenseMain(props) {
       setCategories(data.docs.map((doc) => ({...doc.data(), id: doc.id  })));      
     };
     getCategories();
-  }, [filterName]);
+  }, [filterName, update]);
 
   // Get collections from db with unique name.
   // For adding a select option with unique exp names.

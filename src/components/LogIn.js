@@ -1,14 +1,8 @@
-import Home from "../pages/Home";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { collection, addDoc } from 'firebase/firestore';
-
 import { useState } from "react";
-import {db} from '../firebase.js';
 
-function SignUpForm(props) {
-    const auth = getAuth();
-
-
+function LogIn(props) {
+  const auth = getAuth();
   const [email, setEmail] = useState(false);
   const [password, setPassword] = useState(false);
 
@@ -16,26 +10,11 @@ function SignUpForm(props) {
     const user = await signInWithEmailAndPassword(auth, email, password)
     .then(async (userCredential) => {
       // Signed in 
-      const user = userCredential.user;
-
-      const usersCollectionRef = collection(db, user.uid)
-
-        
-      const document = await addDoc(usersCollectionRef,  {name: 'name'} );
-  
-      const newCollectionRef = collection(db, user.uid, document.id, 'name of new subcollection')
-  
-      await addDoc(newCollectionRef, {
-          data: 'Hello World!',
-      })
-
-      console.log(user.uid);
-      // ...
+	  props.userState(true);
     })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log(`${errorCode} ${errorMessage}`);
+    .catch((error) => {      
+      const errorMessage = error.message;      
+	  alert(errorMessage);
     });
   }
 
@@ -54,4 +33,4 @@ function SignUpForm(props) {
     )
 }
 
-export default SignUpForm;
+export default LogIn;
