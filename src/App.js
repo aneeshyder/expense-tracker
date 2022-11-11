@@ -10,14 +10,7 @@ import AddCat from "./pages/AddCat";
 
 export default function App() {
     return (
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Home />} />
-            <Route path='add-category' element={<AddCat />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
+		<Home />
     );
   }
 

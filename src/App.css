@@ -1,3 +1,4 @@
+* {box-sizing: border-box;}
 .loader-main { text-align: center;width: 100%; }
 .loader {border: 12px solid #f3f3f3; border-radius: 50%; border-top: 12px solid #5ab2a1; width: 120px; height: 120px; margin:30px auto; -webkit-animation: spin 2s linear infinite; /* Safari */ animation: spin 2s linear infinite; }
 .loading-main {
@@ -23,8 +24,7 @@
   100% { transform: rotate(360deg); }
 }
 .App {
-  text-align: center;
-  margin-top: 50px;
+  text-align: center;  
 }
 
 .App-logo {
@@ -44,13 +44,20 @@ body {
 }
 
 select, input, button {
-  border: 1px solid #fff;
+  border: 1px solid #574848;
   background: #141313;
   margin: 5px 10px;
   padding: 5px 10px;
   text-transform: capitalize;
   color: #fff;
   border-radius: 4px;
+}
+button {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: bold;
+    border-radius: 0;
+    padding: 8px 15px;
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator {
@@ -275,3 +282,59 @@ h2.total-expenses-amount::before {
   }
 }
 
+
+.startActivity {
+	margin-top: 95px;
+}
+.activityWrapper {
+    width: 400px;
+    margin: 0 auto;
+    background-color: #21201f;   
+    border-radius: 5px;	
+    max-width: 95%;
+}
+
+.startActivity .activityButtons {
+	margin-bottom: 15px;
+}
+.startActivity .activityButtons button {
+	margin:0;
+	border-radius: 0;
+	width: 50%;
+	border:0;
+	padding: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+	font-size: 18px;
+}
+.startActivity .activityButtons button.active {
+	background-color: #21201f;
+}
+
+.startActivity .form {
+    padding: 15px 10px;
+}
+
+.startActivity .form button,
+.startActivity .form input {
+	width: 100%;
+	margin: 7px 0;
+	font-size: 16px;
+	padding: 10px 15px;
+}
+
+.startActivity .form button {
+	border: 0;
+    background: #000;
+    padding: 10px;
+}
+
+.mainActivity header {
+	background-color: #21201f;
+	padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mainActivity header { margin: 0 0 35px;}

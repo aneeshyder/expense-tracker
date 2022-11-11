@@ -18,15 +18,22 @@ function Home() {
   const [password, setPassword] = useState(false);
   const [userLoggedIn, setUserLoggedIn] = useState(false);
   const [user, setUser] = useState({});
+  const [tabs, setTabs] = useState(true);
 
-  useEffect(() => {
+const updateTabsState = (event) => {
+	if ( event.target.id === 'login'){
+		setTabs(true);
+	} else {
+		setTabs(false);
+	}
+};
+
+useEffect(() => {
 	onAuthStateChanged(auth, (currentUser) => {
 		setUser(currentUser) 
 	});
 },[]);
  
-
-
 const register = async () => {
   const user = await createUserWithEmailAndPassword(auth, email, password)
   .then(async (userCredential) => {
@@ -52,25 +59,40 @@ const logOut = async () => {
   await signOut(auth)
   setUserLoggedIn(false);
 }
-
-
   
   return (
     <div className="App">
 
 
       { userLoggedIn ? (
-        <>
-          <h4>{user.email }</h4>
-         <button onClick={logOut}>signOut</button>
-         
-          <ExpenseMain userId={user.uid} /> 
-        </>
+        <div className="mainActivity">
+		<header>
+			<h4>{user.email }</h4>
+        	<button onClick={logOut}>signOut</button>
+		</header>         
+		<ExpenseMain userId={user.uid} /> 
+        </div>
       ) : (
-        <>
-          <LogIn userState={setUserLoggedIn} />
-          <SignUpForm createUser={register} email={setEmail} password={setPassword} />  
-        </>
+        <div className="startActivity">
+			<h2>Expense Tracker</h2>
+			<div className="activityWrapper">
+				<div className="activityButtons">
+					<button id="login" className={tabs === true ? 'active' : ''}  onClick={(event) => {
+							updateTabsState(event)
+						}}>Login</button>
+					<button id="signup" className={tabs === false ? 'active' : ''} onClick={(event) => {
+							updateTabsState(event)
+						}}>Signup</button>
+				</div>					
+				{
+					tabs ? (
+						<LogIn userState={setUserLoggedIn} />
+					) : (
+						<SignUpForm createUser={register} email={setEmail} password={setPassword} />  
+					)
+				}
+			</div>          
+        </div>
       )
         
       }

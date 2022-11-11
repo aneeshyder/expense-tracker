@@ -19,12 +19,12 @@ function LogIn(props) {
   }
 
     return (
-        <div className="login-form">
+        <div className="login-form form">
            
             <input type="text"  autoComplete="on" placeholder='email' onChange={(event) => {
                 setEmail(event.target.value)
             }} />
-            <input type="number" placeholder='password'onChange={(event) => {
+            <input type="password" placeholder='password' onChange={(event) => {
                 setPassword(event.target.value)
             }} />
 

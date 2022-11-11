@@ -1,11 +1,11 @@
 function SignUpForm(props) {
     return (
-        <div className="login-form">
+        <div className="signup-form form">
            
             <input type="text" placeholder='email' onChange={(event) => {
                 props.email(event.target.value)
             }} />
-            <input type="number" placeholder='password'onChange={(event) => {
+            <input type="password" placeholder='password' onChange={(event) => {
                 props.password(event.target.value)
             }} />
 
