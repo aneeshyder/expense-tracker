@@ -25,13 +25,13 @@ function ExpForm(props) {
             <select id="cat-options" onChange={(event) => {
                handleSelect(event.target.value)
             }} >
-                <option value=''>Select expense</option>
+                <option value=''>Select Category</option>
                 {props.categories.map((el) => {
                 return(
                 <option value={el.cat_name}>{el.cat_name}</option>
                 )
                 })}
-                <option value='add-new-cat'>Add New Category</option>
+                <option value='add-new-cat'>Add/Remove Category</option>
             </select>
             <input type="text" placeholder='expense description' onChange={(event) => {
                 props.newDesc(event.target.value)

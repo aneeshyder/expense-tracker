@@ -6,13 +6,13 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyC0WrV4tkr2W7lHhzW9gehpBEJ-8yErbl0",
-  authDomain: "expense-tracker-678f8.firebaseapp.com",
-  projectId: "expense-tracker-678f8",
-  storageBucket: "expense-tracker-678f8.appspot.com",
-  messagingSenderId: "1021313785536",
-  appId: "1:1021313785536:web:8de29103f9e9b5e06c5725",
-  measurementId: "G-NME5PSP1D7"
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MES_SEN_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+  measurementId: process.env.REACT_APP_FIREBASE_MEASURE_ID,
 };
 
 const app = initializeApp(firebaseConfig);

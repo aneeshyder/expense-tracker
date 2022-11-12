@@ -66,15 +66,7 @@ function ExpenseMain(props) {
     const expDesc = ele.querySelector(".expDesc").value;
     const expAmount = ele.querySelector(".expAmount").value;
 
-    const  expDoc = doc(db, 'expenses', id);
-
-    // const eleData = await getDoc(expDoc);    
-   
-    // const fd = {...eleData.data(), id: eleData.id  };
-    // const oldAmount =  fd.amount;
-    // let diffAmount = oldAmount - Number(expAmount);
-    // totalExpenses =  Number(diffAmount) - totalExpenses;
-    // updatetotalExpensesAmount(totalExpenses);
+    const  expDoc = doc(db, 'users', props.userId, 'expenses', id);
 
     const newFields = {amount: Number(expAmount), name: expName, description: expDesc }
     await updateDoc(expDoc, newFields);
@@ -114,7 +106,7 @@ function ExpenseMain(props) {
 
   // Delete a exp.
   const deleteExp = async (id, event) => {
-    const  expDoc = doc(db, 'expenses', id);
+    const  expDoc = doc(db, 'users', props.userId, 'expenses', id);
     var ele = event.target.closest(".item");
     const expAmount = ele.querySelector(".amount").innerHTML;
     
@@ -199,7 +191,7 @@ function ExpenseMain(props) {
         )
       }
       { newCatState && (
-         <NewCat newCat={setNewCat} createNewCat={createNewCat} closeNewCat={closeNewCat} />
+         <NewCat newCat={setNewCat} update={updateMainState}userId={props.userId} loader={setLoader} categories={categories} createNewCat={createNewCat} closeNewCat={closeNewCat} />
       )
     }
      
